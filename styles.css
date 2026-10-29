@@ -154,3 +154,4 @@ select{width:auto;padding:8px 10px}
 @media (max-width:560px){.channels{grid-template-columns:minmax(0,1fr)}}
 .next li span:last-child,.more24 li span:last-child{min-width:0;overflow:hidden;text-overflow:ellipsis}
 .next,.more24 ul{min-width:0}
+.next,.more24 ul{grid-template-columns:minmax(0,1fr)}
