@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="es-CR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Guía · naciceleste</title>
+  <meta name="robots" content="noindex, nofollow, noarchive, noimageindex" />
+  <meta name="googlebot" content="noindex, nofollow" />
+  <meta name="description" content="Guía privada de programación." />
+  <meta name="theme-color" content="#0a0f2c" />
+  <meta name="referrer" content="no-referrer" />
+  <link rel="icon" href="assets/favicon-32.png" type="image/png" sizes="32x32" />
+  <link rel="icon" href="assets/favicon-192.png" type="image/png" sizes="192x192" />
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png" />
+  <link rel="preload" href="fonts/nunito-latin.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="stylesheet" href="fonts/fonts.css" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="sky" aria-hidden="true"><div class="glow g1"></div><div class="glow g2"></div><div class="glow g3"></div><div class="stars"></div></div>
+
+  <!-- Pantalla de clave -->
+  <main id="lock" class="lock">
+    <div class="lockcard">
+      <div class="emoji big">🔒</div>
+      <h1 class="title">Guía</h1>
+      <p class="tag">Programación privada de mis canales. Escribí la clave para abrirla.</p>
+      <form id="unlock" autocomplete="off">
+        <input id="pass" type="password" placeholder="Clave" autocomplete="current-password" aria-label="Clave" required />
+        <button type="submit" id="unlockBtn" class="btn primary">Desbloquear</button>
+        <label class="chk"><input id="remember" type="checkbox" /> Recordar en este dispositivo</label>
+      </form>
+      <p id="lockMsg" class="msg" role="status" aria-live="polite"></p>
+      <p class="foot">Los datos viajan cifrados y se abren solo en tu navegador.</p>
+    </div>
+  </main>
+
+  <!-- App -->
+  <div id="app" class="app" hidden>
+    <header class="top">
+      <div class="brand">
+        <a class="logo" href="./" aria-label="Guía"><img src="assets/favicon-192.png" alt="" width="40" height="40" /></a>
+        <div>
+          <h1 class="title small">Guía</h1>
+          <p class="sub" id="updated"></p>
+        </div>
+        <button id="lockBtn" class="btn ghost" title="Bloquear" aria-label="Bloquear">🔒</button>
+      </div>
+      <nav class="tabs" role="tablist">
+        <button role="tab" data-tab="now" class="tab active">📺 <span class="long">Ahora y lo próximo</span><span class="short">Ahora</span></button>
+        <button role="tab" data-tab="foryou" class="tab">✨ <span>Para vos</span></button>
+        <button role="tab" data-tab="search" class="tab">🔎 <span>Buscar</span></button>
+      </nav>
+    </header>
+
+    <!-- 1. Ahora y lo próximo -->
+    <section id="tab-now" class="panel">
+      <div class="bar">
+        <input id="chFilter" type="search" placeholder="Filtrar canales (nombre o número)…" aria-label="Filtrar canales" />
+        <label class="sel">Ver a las
+          <select id="atTime" aria-label="Momento a mostrar"></select>
+        </label>
+      </div>
+      <div id="groupChips" class="chips"></div>
+      <div id="nowList" class="channels"></div>
+      <details id="nocov" class="nocov"><summary id="nocovSum"></summary><div id="nocovList" class="nocov-list"></div></details>
+    </section>
+
+    <!-- 2. Para vos -->
+    <section id="tab-foryou" class="panel" hidden>
+      <div class="bar">
+        <h2 class="h2">Lo que te puede gustar</h2>
+        <button id="editInterests" class="btn">⚙️ Mis intereses</button>
+      </div>
+      <p class="hint">Lo que viene en los próximos días, según tus intereses (por palabras clave en el título y la descripción).</p>
+      <div id="intChips" class="chips"></div>
+      <div id="picks"></div>
+      <button id="morePicks" class="btn center" hidden>Ver más</button>
+    </section>
+
+    <!-- 3. Buscar -->
+    <section id="tab-search" class="panel" hidden>
+      <form id="searchForm" class="searchbox" role="search">
+        <input id="q" type="search" placeholder="Buscar un programa, partido, equipo, serie…" aria-label="Buscar programa o evento" autocomplete="off" />
+      </form>
+      <div class="bar small">
+        <label class="chk"><input id="qPast" type="checkbox" /> incluir lo que ya pasó</label>
+        <label class="sel">Orden
+          <select id="qSort"><option value="rel">Relevancia</option><option value="time">Cronológico</option></select>
+        </label>
+      </div>
+      <p id="qInfo" class="hint"></p>
+      <div id="results"></div>
+      <button id="moreRes" class="btn center" hidden>Ver más</button>
+    </section>
+
+    <footer class="foot">Hecho con colaboración agéntica · uso personal y privado · horarios en hora de Costa Rica</footer>
+  </div>
+
+  <!-- Editor de intereses -->
+  <dialog id="intDlg" class="dlg">
+    <form method="dialog" class="dlgbox">
+      <div class="bar"><h2 class="h2">Mis intereses</h2><button value="close" class="btn ghost" aria-label="Cerrar">✕</button></div>
+      <p class="hint">Cada interés tiene palabras clave separadas por coma. Usá <code>a + b</code> para exigir las dos palabras (por ejemplo <code>costa rica + vs</code>). Sin importar mayúsculas ni tildes. Se guardan solo en este navegador.</p>
+      <div id="intList"></div>
+      <div class="dlgfoot">
+        <button type="button" id="addInt" class="btn">➕ Agregar interés</button>
+        <button type="button" id="resetInt" class="btn ghost">Restablecer</button>
+        <button value="close" class="btn primary">Listo</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script src="vendor/minisearch.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
